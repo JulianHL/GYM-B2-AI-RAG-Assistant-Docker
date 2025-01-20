@@ -27,11 +27,11 @@ jobs:
       run: |
         docker build \
           --build-arg GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-          -t JulianHL/b2-gym-app:latest ./B2GYMBinder/
+          -t niwy/b2-gym-app:latest ./B2GYMBinder/
 
     - name: Push Docker Image
       run: |
-        docker push JulianHL/b2-gym-app:latest
+        docker push niwy/b2-gym-app:latest
 
   deploy:
     needs: build-and-push
@@ -47,11 +47,11 @@ jobs:
 
     - name: Deploy Application
       run: |
-        docker pull JulianHL/b2-gym-app:latest
+        docker pull niwy/b2-gym-app:latest
         docker stop b2-gym-app || true
         docker rm b2-gym-app || true
         docker run -d \
           --name b2-gym-app \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -p 8501:8501 \
-          JulianHL/b2-gym-app:latest
+          niwy/b2-gym-app:latest
